@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
-
+use think\Db;
+use think\Model;
 class Index
 {
     public function index()
@@ -10,6 +11,11 @@ class Index
 
     public function say()
     {
-    	echo 'hello';
+    	return ['data'=>'hello'];
+    }
+
+    public function test()
+    {
+        $data = new User();
     }
 }
