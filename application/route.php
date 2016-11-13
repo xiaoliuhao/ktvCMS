@@ -17,5 +17,8 @@ return [
         ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
         ':name' => ['index/hello', ['method' => 'post']],
     ],
-
+    'say/[:name]' => 'index/say',
+    'user/login' => 'index/user/login',
+    'user/index/[:name]'=> 'index/user/index',
+    'Song/test' => 'index/Song/test'
 ];

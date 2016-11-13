@@ -13,19 +13,30 @@ use \think\Request;
 use app\index\model\UserModel;
 
 class User{
-
+    //构造函数
     public function _initialize(){
 
     }
 
-    public function login(){
-        $uid = Request::instance()->get('uid');
-        $passwd = Request::instance()->get('passwd');
+    public function index(Request $request, $name = '') {
+        $str = base64_encode('123');
+        $data = ['name'=> $name, 'status'=>'1', 'str'=>$str];
+        return json($data);
+    }
 
-        $user = new UserModel();
+    public function login($uid = '', $passwd = ''){
 
-        $data = $user->check_login($uid, $passwd);
-        return $data;
+        if($uid && $passwd) {
+            $str = array('uid' => $uid, 'passwd' => $passwd);
+            return $str;
+        }else{
+            return 'wrong';
+        }
+
+//        $user = new UserModel();
+//
+//        $data = $user->check_login($uid, $passwd);
+//        return $data;
     }
     
     public function register(){
