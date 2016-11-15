@@ -13,12 +13,19 @@ return [
     '__pattern__' => [
         'name' => '\w+',
     ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
+    //路由设置为默认是index模块
+    '__alias__'=>[
+        'playlist' => 'index/Playlist',
+        'user'     => 'index/User',
+        'song'     => 'index/Song',
+        'room'     => 'index/Room'
     ],
-    'say/[:name]' => 'index/say',
-    'user/login' => 'index/user/login',
-    'user/index/[:name]'=> 'index/user/index',
-    'Song/test' => 'index/Song/test'
+//    'playlist/[:name]$'=>'index/playlist'
+//    'say/[:name]' => 'index/say',
+//    'user/login' => 'index/user/login',
+//    'user/index/[:name]'=> 'index/user/index',
+//    'Song/test' => 'index/Song/test',
+//    'Playlist/index'=>'index/Playlist/index',
+//    'Playlist/add'=>'index/Playlist/add',
+//    'playlist/' => 'index/playlist/'
 ];

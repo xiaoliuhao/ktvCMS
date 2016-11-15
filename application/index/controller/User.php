@@ -8,7 +8,6 @@
 namespace app\index\controller;
 
 //调用Request类
-use think\console\command\make\Controller;
 use \think\Request;
 //调用User模型
 use app\index\model\UserModel;
@@ -53,6 +52,12 @@ class User extends Controller {
      * @return array
      */
     public function register($uid = '', $username = '', $passwd = ''){
+
+
+
+
         return array('status'=>2000, 'message'=>'ok', 'data'=>'');
     }
+
+
 }
