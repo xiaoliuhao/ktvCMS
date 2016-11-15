@@ -15,7 +15,7 @@ return [
     // 服务器地址
     'hostname'       => '115.159.54.210',
     // 数据库名
-    'database'       => 'test02',
+    'database'       => 'ktvcms',
     // 用户名
     'username'       => 'Liu',
     // 密码
