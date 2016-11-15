@@ -53,9 +53,6 @@ class User extends Controller {
      */
     public function register($uid = '', $username = '', $passwd = ''){
 
-
-
-
         return array('status'=>2000, 'message'=>'ok', 'data'=>'');
     }
 
