@@ -12,7 +12,7 @@ use \think\Request;
 //调用User模型
 use app\index\model\UserModel;
 
-class User extends Controller {
+class User extends Base {
     /**
      * 构造函数
      */
