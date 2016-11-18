@@ -11,7 +11,7 @@ use app\index\model\RoomModel;
 use app\index\model\RoomMemberModel;
 use think\Db;
 
-class Room{
+class Room extends Base{
     public function _initialize(){}
     public function index(){
         return "RoomController";

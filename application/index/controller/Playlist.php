@@ -10,7 +10,7 @@ namespace app\index\controller;
 use app\index\Model\PlaylistModel;
 use think\Db;
 
-class Playlist{
+class Playlist extends Base{
     public function _initialize(){
 
     }

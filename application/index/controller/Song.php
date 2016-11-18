@@ -9,7 +9,7 @@ namespace app\index\controller;
 
 use app\index\model\SongModel;
 
-class Song{
+class Song extends Base{
     public function _initialize() {
         
     }

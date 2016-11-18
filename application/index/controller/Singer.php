@@ -10,7 +10,7 @@
 namespace app\index\controller;
 use app\index\model\SingerModel;
 
-class Singer{
+class Singer extends Base{
     public function _initialize(){
 
     }

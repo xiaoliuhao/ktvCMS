@@ -22,7 +22,8 @@ class User extends Base {
 
 
     public function index() {
-        return array('status'=>2000, 'message'=>'UserController', 'data'=>'');
+//        return array('status'=>2000, 'message'=>'UserController', 'data'=>'');
+        return $this->_return(404,'ok','');
     }
 
     /**
@@ -41,7 +42,7 @@ class User extends Base {
         //查询用户数据
         $data = $user->where(array('u_id'=>$uid, 'passwd'=>$passwd))->find();
         //返回json字符串, status状态码  message 信息  data 数据
-        return array('status'=>2000, 'message'=>'ok', 'data'=>$data);
+        $this->_return(200,'ok',$data);
     }
 
     /**
@@ -53,7 +54,7 @@ class User extends Base {
      */
     public function register($uid = '', $username = '', $passwd = ''){
 
-        return array('status'=>2000, 'message'=>'ok', 'data'=>'');
+        $this->_return(200,'ok');
     }
 
 
