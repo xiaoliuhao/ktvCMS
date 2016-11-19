@@ -84,4 +84,63 @@ www  WEB部署目录（或者子目录）
 
 
 ## API
-### 
+
+### 用户
+
+* **登录**
+  *    地址：`http://localhost/homework/ktvcms/public/user/login`
+
+       * 查询值：`POST`
+
+         ``` json
+         {
+             uid:      //账号
+             passwd:   //密码
+         }
+         ```
+
+       * 返回值：
+
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           msg: ok
+           data:''
+         }
+         // error
+         http header Status Code: 不为200
+         {
+           msg: 具体的信息
+           data: ''
+         }
+         ```
+* **注册**
+  *    地址：`http://localhost/homework/ktvcms/public/user/register`
+
+       * 查询值：`POST`
+
+         ``` json
+         {
+             uid:      //账号
+             username: //昵称
+             passwd:   //密码
+         }
+         ```
+
+       * 返回值：
+
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           msg: ok
+           data:''
+         }
+         // error
+         http header Status Code: 不为200
+         {
+           msg: 具体的信息
+           data: ''
+         }
+         ```

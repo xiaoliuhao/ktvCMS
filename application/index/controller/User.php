@@ -35,7 +35,8 @@ class User extends Base {
     public function login($uid = '', $passwd = ''){
         //判断参数是否为空, 若参数不全则返回
         if(!$uid || !$passwd){
-            return array('status'=>4000,'message'=>'参数错误','data'=>'');
+//            return array('status'=>4000,'message'=>'参数错误','data'=>'');
+            $this->_return(400,'参数错误');
         }
         //调用model
         $user = new UserModel();
