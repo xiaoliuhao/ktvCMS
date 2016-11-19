@@ -26,6 +26,10 @@ class Song extends Base{
         
     }
 
+    public function play($songid='') {
+        $this->_return(200,'ok',$data);
+    }
+
     public function test() {
         $song = SongModel::get('S00001');
         $song->get('S00001');
