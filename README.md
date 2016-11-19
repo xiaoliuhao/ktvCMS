@@ -94,7 +94,7 @@ www  WEB部署目录（或者子目录）
 
          ``` json
          {
-             "uid":      "账号"
+             "uid":      "账号",
              "passwd":   "密码"
          }
          ```
@@ -105,13 +105,13 @@ www  WEB部署目录（或者子目录）
          // success
          http header Status Code:200 OK
          {
-           "msg": "ok"
+           "msg": "ok",
            "data":""
          }
          // error
          http header Status Code: 不为200
          {
-           "msg": "具体的信息"
+           "msg": "具体的信息",
            "data": ""
          }
          ```
@@ -122,8 +122,8 @@ www  WEB部署目录（或者子目录）
 
          ``` json
          {
-             "uid":      "账号"
-             "username": "昵称"
+             "uid":      "账号",
+             "username": "昵称",
              "passwd":   "密码"
          }
          ```
@@ -134,13 +134,13 @@ www  WEB部署目录（或者子目录）
          // success
          http header Status Code:200 OK
          {
-           "msg": "ok"
+           "msg": "ok",
            "data":""
          }
          // error
          http header Status Code: 不为200
          {
-           "msg": "具体的信息"
+           "msg": "具体的信息",
            "data": "
          }
          ```
