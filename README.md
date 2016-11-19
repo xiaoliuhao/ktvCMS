@@ -94,8 +94,8 @@ www  WEB部署目录（或者子目录）
 
          ``` json
          {
-             uid:      //账号
-             passwd:   //密码
+             "uid":      "账号"
+             "passwd":   "密码"
          }
          ```
 
