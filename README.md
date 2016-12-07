@@ -130,12 +130,14 @@ www  WEB部署目录（或者子目录）
          // success
          http header Status Code:200 OK
          {
+           "status": 200,
            "msg": "ok",
            "data":""
          }
          // error
          http header Status Code: 不为200
          {
+           "status": "不为200",
            "msg": "具体的信息",
            "data": ""
          }
@@ -159,13 +161,150 @@ www  WEB部署目录（或者子目录）
          // success
          http header Status Code:200 OK
          {
+           "status":200,
            "msg": "ok",
            "data":""
          }
          // error
          http header Status Code: 不为200
          {
+           "status": "不为200",
            "msg": "具体的信息",
-           "data": "
+           "data": ""
+         }
+         ```
+
+* **搜索(在线)**
+  *    地址：`http://localhost/homework/c++/ktv/public/search/get?key=陈奕迅`
+
+       * 查询值：`GET`
+
+         ``` json
+         {
+             "key":      "搜索的内容,歌曲 歌手均可",
+             "page":    "页码"
+         }
+         ```
+
+       * 返回值：
+
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           "status":200,
+           "msg": "ok",
+           "data":[
+                {
+                    "id":   "歌曲id",
+                    "name": "歌曲名",
+                    "artists": {
+                        "id":   "歌手id",
+                        "name": "歌手名字",
+                        "pic":  "图片地址"
+                    },
+                    "album":{
+                        "id":   "专辑id",
+                        "name": "专辑名"
+                    }
+                }
+           ]
+         }
+         // error
+         http header Status Code: 不为200
+         { 
+           "status":"不为200",
+           "msg": "具体的信息",
+           "data": " "
+         }
+         ```
+         
+* **专辑详情(在线)**
+  *    地址：`http://localhost/homework/c++/ktv/public/search/get_album_info?id=34735139`
+
+       * 查询值：`GET`
+
+         ``` json
+         {
+             "id":      "专辑id"
+         }
+         ```
+
+       * 返回值：
+
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           "status":200,
+           "msg": "ok",
+           "data":[
+                {
+                    "id":   "专辑id",
+                    "name": "专辑名",
+                    "pic":  "图片",
+                    "songs":[{
+                        "id":   "歌曲id",
+                        "name": "歌曲名",
+                        "pic":  "图片",
+                        "artists":{
+                            "id":   "歌手id",
+                            "name": "歌手名字",
+                            "pic":  "歌手图片"
+                        }
+                    }
+                    ]
+                }
+           ]
+         }
+         // error
+         http header Status Code: 不为200
+         { 
+           "status":"不为200",
+           "msg": "具体的信息",
+           "data": " "
+         }
+         ```
+         
+* **歌曲详情(在线)**
+  *    地址：`http://localhost/homework/c++/ktv/public/search/music_detail?id=438801672`
+
+       * 查询值：`GET`
+
+         ``` json
+         {
+             "id":      "歌曲id"
+         }
+         ```
+
+       * 返回值：
+
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           "status":200,
+           "msg": "ok",
+           "data":[
+                {
+                    "id":   "歌曲id",
+                    "name": "歌曲名",
+                    "playtime":"播放时间",
+                    "url":  "歌曲地址url",
+                    "lyric":   "歌词",
+                    "pic":  "歌曲图片",
+                    "album":{
+                        "id":   "专辑id",
+                        "name": "专辑名"
+                    }
+                }
+           ]
+         }
+         // error
+         http header Status Code: 不为200
+         { 
+           "status":"不为200",
+           "msg": "具体的信息",
+           "data": " "
          }
          ```

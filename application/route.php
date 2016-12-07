@@ -18,7 +18,8 @@ return [
         'playlist' => 'index/Playlist',
         'user'     => 'index/User',
         'song'     => 'index/Song',
-        'room'     => 'index/Room'
+        'room'     => 'index/Room',
+        'search'   => 'index/Search',
     ],
 //    'playlist/[:name]$'=>'index/playlist'
 //    'say/[:name]' => 'index/say',

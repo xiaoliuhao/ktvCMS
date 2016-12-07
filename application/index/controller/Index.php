@@ -25,4 +25,11 @@ class Index extends Base{
 //        return $data;
     }
 
+    public function time(){
+        $today = date('Y-m-d');
+        $day = 12;
+        $tomorr = date('Y-m-d',strtotime("+{$day} day",strtotime($today)));
+        return array('status'=>200, 'message'=>'ok', 'data'=>$tomorr);
+    }
+
 }
