@@ -7,7 +7,7 @@
  *********************************
  */
 namespace app\index\controller;
-use app\index\Model\PlaylistModel;
+use app\index\model\PlaylistModel;
 use app\index\model\RoomModel;
 use app\index\model\RoomMemberModel;
 use think\Db;

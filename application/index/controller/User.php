@@ -36,14 +36,14 @@ class User extends Base {
         //判断参数是否为空, 若参数不全则返回
         if(!$uid || !$passwd){
 //            return array('status'=>4000,'message'=>'参数错误','data'=>'');
-            $this->_return(400,'参数错误');
+            return $this->_return(400,'参数错误');
         }
         //调用model
         $user = new UserModel();
         //查询用户数据
         $data = $user->where(array('u_id'=>$uid, 'passwd'=>$passwd))->find();
         //返回json字符串, status状态码  message 信息  data 数据
-        $this->_return(200,'ok',$data);
+        return $this->_return(200,'ok',$data);
     }
 
     /**

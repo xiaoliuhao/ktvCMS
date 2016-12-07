@@ -8,7 +8,7 @@
  *********************************
  */
 namespace app\index\controller;
-use app\index\Model\SearchModel;
+use app\index\model\SearchModel;
 
 class Search extends Base{
     public function _initialize(){}

@@ -113,7 +113,7 @@ www  WEB部署目录（或者子目录）
 ### 用户
 
 * **登录**
-  *    地址：`http://localhost/homework/ktvcms/public/user/login`
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/user/login`
 
        * 查询值：`POST`
 
@@ -143,7 +143,7 @@ www  WEB部署目录（或者子目录）
          }
          ```
 * **注册**
-  *    地址：`http://localhost/homework/ktvcms/public/user/register`
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/user/register`
 
        * 查询值：`POST`
 
