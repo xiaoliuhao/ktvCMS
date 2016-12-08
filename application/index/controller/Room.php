@@ -25,7 +25,15 @@ class Room extends Base{
      * @param string $uid   用户账号
      * @return array|\Exception
      */
-    public function add($name = '123', $uid = '1'){
+    public function add($name = '', $uid = ''){
+        if(!$name || !$uid){
+            return $this->_return(400,'请求参数错误');
+        }
+        //add:2016-12-8房间不能同名,防止混淆
+        $room_data = Db::table('ktv_room')->where('name',$name)->select();
+        if(!empty($room_data)){
+            return $this->_return(403,'此房间名已被占用');
+        }
         $str = '';
         for ($i = 0; $i <= 6; $i++){
             $str .= rand(0,9);
@@ -38,19 +46,20 @@ class Room extends Base{
             Db::table('ktv_room_member')->insert(['r_id'=>$id, 'u_id'=>$uid, 'level'=>0, 'join_time'=>$time]);
             Db::commit();
         } catch (\Exception $e){
-            Db::rollback();
-            return $e;
+            Db::rollback(); //事务回滚
+            return $this->_return(404,'用户名不存在');
         }
-        return $this->_return(200,'ok');
+        return $this->_return(200,'ok',array('id'=>$id,'name'=>$name,'passwd'=>$passwd));
     }
 
     /**
      * 查看附近的房间
      * @return \think\response\Json
      */
-    public function show(){
+    public function show($page = 1){
+        $rows = 20;
         $room = new RoomModel;
-        $list = $room->where('status', '0')->select();
+        $list = $room->field('r_id,name,creater,status,create_time')->limit($rows*($page-1),$rows)->select();
         return $this->_return(200,'ok',$list);
     }
 
@@ -83,13 +92,13 @@ class Room extends Base{
      * @param string $passwd
      * @return \think\response\Json
      */
-    public function addMember($roomid ='',$uid = '', $passwd = ''){
+    public function addMember($roomid = '',$uid = '', $passwd = ''){
         //先查看房间状态, 是否开启
         $room = RoomModel::get($roomid);
         //如果房间开启并且密码相同
         if(isset($room) && ($room->status == 1)) {
-            if($passwd != $roomid){
-                $this->_return(403,'密码错误');
+            if($passwd != $room->passwd){
+                return $this->_return(403,'密码错误');
             }
             //将用户存入数据库
             try {
@@ -100,35 +109,14 @@ class Room extends Base{
                 $member->save();
                 return $this->_return(200,'ok');
             }catch (\Exception $e){ //获取异常
-                return $this->_return(403,'请勿重复加入房间');
+                return $this->_return(203,'重复加入房间');
             }
         }else{
             //房间不存在,加入失败
-            return $this->_return(404,'您所加入的房间不存在');
+            return $this->_return(404,'房间不存在');
         }
     }
 
-    /**
-     * 用户退出房间
-     * @param string $roomid
-     * @param string $uid
-     * @return \think\response\Json
-     */
-    public function deleteMember($roomid = '', $uid = ''){
-        //查找房间
-        $room = RoomModel::get($roomid);
-        //查找该成员
-        $member = RoomMemberModel::get(array('r_id'=>$roomid, 'u_id'=>$uid));
-        if(!isset($room) || !isset($member)){
-            return $this->_return(404,'房间不存在或不在房间内');
-        }
-        try {
-            //退出
-            $member->delete();
-        }catch (\Exception $e){ //异常
-            return $this->_return(403,'退出房间错误');
-        }
-        return $this->_return(200,'ok');
-    }
+
 
 }

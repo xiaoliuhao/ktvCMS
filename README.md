@@ -175,7 +175,7 @@ www  WEB部署目录（或者子目录）
          ```
 
 * **搜索(在线)**
-  *    地址：`http://localhost/homework/c++/ktv/public/search/get?key=陈奕迅`
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/search/get?key=陈奕迅`
 
        * 查询值：`GET`
 
@@ -220,7 +220,7 @@ www  WEB部署目录（或者子目录）
          ```
          
 * **专辑详情(在线)**
-  *    地址：`http://localhost/homework/c++/ktv/public/search/get_album_info?id=34735139`
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/search/get_album_info?id=34735139`
 
        * 查询值：`GET`
 
@@ -267,7 +267,7 @@ www  WEB部署目录（或者子目录）
          ```
          
 * **歌曲详情(在线)**
-  *    地址：`http://localhost/homework/c++/ktv/public/search/music_detail?id=438801672`
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/search/music_detail?id=438801672`
 
        * 查询值：`GET`
 
@@ -306,5 +306,139 @@ www  WEB部署目录（或者子目录）
            "status":"不为200",
            "msg": "具体的信息",
            "data": " "
+         }
+         ```
+         
+* **查看附近的房间**
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/room/show?page=1`
+
+       * 查询值：`GET`
+
+         ``` json
+         {
+             "page":      "页码,一页20条,可不传,则默认第一页"
+         }
+         ```
+
+       * 返回值：
+
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           "status":200,
+           "msg": "ok",
+           "data":[
+                {   "r_id": "1"     //房间id
+                    "name": "123"   //房间名字
+                    "creater":"1"   //创建者
+                    "status":"1"    //状态 1:使用中  0:未使用
+                    "create_time":"2016-11-19 15:34:15" //创建时间
+                }
+           ]
+         }
+         // error
+         http header Status Code: 不为200
+         { 
+           "status":"不为200",  
+           "msg": "具体的信息",
+           "data": ""
+         }
+         ```
+         
+         
+* **创建房间**
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/room/add`
+
+       * 查询值：`POST`
+
+         ``` json
+         {
+             "name":      "要创建的房间名",
+             "uid":       "创建者的uid"
+         }
+         ```
+
+       * 返回值：
+
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           "status":200,
+           "msg": "ok",
+           "data":{
+                "id":   "1",        //房间id
+                "name": "123",      //房间名称
+                "passwd": "123456"  //房间密码 6位|随机
+           }
+         }
+         // error
+         http header Status Code: 不为200
+         { 
+           "status":"不为200",  // 400:参数错误 403:房间名重复 404:用户账号不存在 
+           "msg": "具体的信息",
+           "data": ""
+         }
+         ```
+* **加入房间**
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/member/join`
+
+       * 查询值：`POST`
+
+         ``` json
+         {
+             "roomid":"24",      //要加入房间的id
+             "uid":"3",          //用户uid
+             "passwd":"625102"   //房间密码
+         }
+         ```
+
+       * 返回值：
+
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           "status":200,
+           "msg": "ok",
+           "data":""
+         }
+         // error
+         http header Status Code: 不为200
+         { 
+           "status":"不为200",  // 203:已经在房间 400:参数错误 403:密码错误 404:房间不存在 
+           "msg": "具体的信息",
+           "data": ""
+         }
+         ```
+         
+**退出房间**
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/member/quit`
+  
+       * 查询值：`POST`
+  
+         ``` json
+         {
+             "roomid":"24",      //要加入房间的id
+             "uid":"3",          //用户uid
+         }
+         ```
+  
+       * 返回值：
+  
+         ``` json
+         // success
+         http header Status Code:200 OK
+         {
+           "status":200,
+           "msg": "ok",
+           "data":""
+         }
+         // error
+         http header Status Code: 不为200
+         { 
+           "status":"不为200",  //400:参数错误 401:退出房间异常 404:房间不存在或不在房间内             "msg": "具体的信息",
+           "data": ""
          }
          ```

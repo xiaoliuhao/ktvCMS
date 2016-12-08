@@ -20,6 +20,6 @@ class Base  {
      * @return \think\response\Json
      */
     protected function _return($code, $message, $data = ''){
-        return json(['msg' => $message, 'data'=>$data], $code);
+        return json(['status'=>$code,'msg' => $message, 'data'=>$data], $code);
     }
 }

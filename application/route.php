@@ -20,6 +20,7 @@ return [
         'song'     => 'index/Song',
         'room'     => 'index/Room',
         'search'   => 'index/Search',
+        'member'   => 'index/Member',
     ],
 //    'playlist/[:name]$'=>'index/playlist'
 //    'say/[:name]' => 'index/say',
