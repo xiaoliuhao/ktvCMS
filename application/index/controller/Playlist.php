@@ -30,7 +30,8 @@ class Playlist extends Base{
         $playlist = new PlaylistModel;
         $is_set = $playlist->where(array('r_id'=>$roomid, 's_id'=>$songid, 'u_id'=>$uid))->find();
         if ($is_set){
-            return array('status'=>5000, 'message'=>'已存在');
+//            return array('status'=>5000, 'message'=>'已存在');
+            return $this->_return(302,'已存在');
         }
         //开启事务
         Db::startTrans();
@@ -46,9 +47,9 @@ class Playlist extends Base{
             //回滚事务
             Db::rollback();
             //返回错误信息
-            return $e;
+            return $this->_return(401,'wrong', array('error'=>$e));
         }
-        return array('status'=>2000, 'message'=>'ok');
+        return $this->_return(200,'ok');
     }
 
     /**
@@ -59,7 +60,7 @@ class Playlist extends Base{
     public function show($roomid = '1'){
         $list = new PlaylistModel();
         $data = $list->where('r_id',$roomid)->find();
-        return array('status'=>2000, 'message'=>'ok', 'data'=>$data);
+        return $this->_return(200,'ok',$data);
     }
 
     public function delete($uid = '1', $roomid = '1',$songid = '1'){
