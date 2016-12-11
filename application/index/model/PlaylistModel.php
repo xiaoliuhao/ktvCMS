@@ -13,4 +13,7 @@ class PlaylistModel extends Model{
     protected $createTime = 'time';
     protected $autoWriteTimestamp = 'datetime';
     protected $insert = ['rank'=>'0'];
+    protected $type = [
+        'rank' => 'integer',
+    ];
 }

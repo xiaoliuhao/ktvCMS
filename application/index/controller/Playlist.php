@@ -16,7 +16,7 @@ class Playlist extends Base{
     }
 
     public function index() {
-        return array('status'=>2000, 'message'=>'UserController', 'data'=>'');
+        return array('status'=>2000, 'message'=>'PlaylistController', 'data'=>'');
     }
 
     /**
@@ -59,12 +59,20 @@ class Playlist extends Base{
      */
     public function show($roomid = '1'){
         $list = new PlaylistModel();
-        $data = $list->where('r_id',$roomid)->find();
+        $data = $list->where('r_id',$roomid)->order('rank', 'desc')->select();
         return $this->_return(200,'ok',$data);
     }
 
-    public function delete($uid = '1', $roomid = '1',$songid = '1'){
-
+    public function delete($uid = '', $roomid = '',$songid = ''){
+        //判断用户是否存在
+        $playlist = new PlaylistModel;
+        $is_set = $playlist->where(array('r_id'=>$roomid, 's_id'=>$songid, 'u_id'=>$uid))->find();
+        if(!$is_set) {
+            return $this->_return(403, '暂无记录');
+        }
+        $is_set->delete();
+        return $this->_return(200, 'ok');
+//        $db->delete($songid);
     }
     //置顶歌曲
     public function up(){
