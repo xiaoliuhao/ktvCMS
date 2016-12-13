@@ -18,7 +18,21 @@ class Song extends Base{
         return "SongController";
     }
 
-    public function add() {
+    public function add($title = '童真', $album = '心灵鸡汤', $author = 'Selina',$mp3 = '') {
+        $db = new SongModel;
+        $title_info = to_en($title);
+
+        $db->title = $title_info['name'];
+        $db->short_title = $title_info['short_name'];
+        $db->en_title    = $title_info['pinyin'];
+        $db->album       = $album;
+        $db->author      = $author;
+        $db->mp3         = $mp3;
+
+        if($db->save()){
+            //添加成功
+            return $this->_return(200, 'ok');
+        }
 
     }
 

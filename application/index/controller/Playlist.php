@@ -76,9 +76,11 @@ class Playlist extends Base{
     }
     //置顶歌曲
     public function up(){
-
+        //可以用队列 取出要置顶的歌曲 放到队首即可保留原来的置顶过的顺序
         return array('status'=>200, 'message'=>'ok', 'data'=>'');
     }
+    
+    public function test_show(){
 
-
+    }
 }

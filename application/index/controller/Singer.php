@@ -17,9 +17,19 @@ class Singer extends Base{
     public function index(){
         return "SingerController";
     }
-    public function add(){
-
-        return array('status'=>200, 'message'=>'ok', 'data'=>'');
+    public function add($name = '刘浩'){
+        $db = new SingerModel;
+        //生成拼音
+        $name_info = to_en($name);
+        //生成拼音缩写
+        $db->name           = $name_info['name'];
+        $db->short_name    = $name_info['short_name'];
+        $db->pinyin         = $name_info['pinyin'];
+        $db->is_right       = $name_info['is_right'];
+        if($db->save()) {
+//            return array('status' => 200, 'message' => 'ok', 'data' => '');
+            return $this->_return(200, 'ok', $name_info);
+        }
     }
 
     public function delete(){
