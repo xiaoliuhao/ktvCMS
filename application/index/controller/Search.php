@@ -28,9 +28,14 @@ class Search extends Base{
         $data = json_decode($json)->result->songs;
         $songs = array();
         foreach ($data as $song){
+            $url = "http://music.163.com/api/song/detail/?id=" . $song->id . "&ids=%5B" . $song->id . "%5D";
+            $json = $model->curl_get($url);
+            $song_detail = json_decode($json)->songs[0];
+
             $songs[] = array(
                 'id'    => $song->id,
                 'name'  => $song->name,
+                'playtime'  => date('i:s', substr($song_detail->duration, 0, 3)),
                 'artists'=> array(
                     'id'=> $song->artists[0]->id,
                     'name'=>$song->artists[0]->name,

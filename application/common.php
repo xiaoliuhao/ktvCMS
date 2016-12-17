@@ -122,13 +122,16 @@ function _Array_Combine($_Arr1, $_Arr2)
 function to_en($str){
     $en = '';
     $data = array();
+    $j = 0;
     for($i = 0; $i < mb_strlen($str); $i=$i+3){
         $en .= substr(pinyin(substr($str, $i, 3)), 0, 1);
+        $j++;
     }
 
     $data['name'] = $str;
     $data['short_name'] = $en;
     $data['pinyin'] = pinyin($str);
+    $data['num'] = $j;
     if(strlen($en)*3 == mb_strlen($str)){
         $data['is_right'] = '1';
     } else {
