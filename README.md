@@ -470,7 +470,7 @@ www  WEB部署目录（或者子目录）
          ```
          
 **个性推荐**
-  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/history/get`
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/history/tuijian`
   
        * 查询值：`GET`
   
