@@ -444,3 +444,51 @@ www  WEB部署目录（或者子目录）
            "data": ""
          }
          ```
+         
+**历史记录**
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/history/get`
+  
+       * 查询值：`GET`
+  
+       * 返回值：
+  
+         ``` json
+         // success
+         http header Status Code:200 OK
+         [
+            {
+                "title": "As Long As You Love ",    //歌名
+                "artist": "贾斯丁比伯",              //歌手
+                "album": "As Long As You Love Me",  //专辑
+                "cover": "images/1.gif",            //图片
+                "lyric": "lyric/As Long As You Love Me.lrc",    //歌词
+                "mp3": "music/As Long As You Love Me.mp3",      //mp3
+                "ogg": "music/As Long As You Love Me.ogg",      //ogg
+                "time": "2016-12-06 16:56:26"                   //点歌时间
+            }
+         ]
+         ```
+         
+**个性推荐**
+  *    地址：`http://ktvcms.xiaohaozi.com.cn/ktv/history/get`
+  
+       * 查询值：`GET`
+  
+       * 返回值：
+  
+         ``` json
+         // success
+         http header Status Code:200 OK
+         [
+            {
+                "title": "As Long As You Love ",    //歌名
+                "artist": "贾斯丁比伯",              //歌手
+                "album": "As Long As You Love Me",  //专辑
+                "cover": "images/1.gif",            //图片
+                "lyric": "lyric/As Long As You Love Me.lrc",    //歌词
+                "mp3": "music/As Long As You Love Me.mp3",      //mp3
+                "ogg": "music/As Long As You Love Me.ogg",      //ogg
+                "history":3 //点歌次数
+            }
+         ]
+         ```

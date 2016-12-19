@@ -126,6 +126,10 @@ class Search extends Base{
         return $result;
     }
 
+    public function add($id){
+
+    }
+
     /**
      * @param $url
      * @return mixed

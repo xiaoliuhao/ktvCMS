@@ -33,6 +33,16 @@ class Singer extends Base{
         }
     }
 
+    public function getlist($type = '') {
+        $db = new SingerModel;
+        if($type){
+            $sings = $db->field('name,short_name,pinyin,type')->where(array('type'=>$type))->select();
+        }else{
+            $sings = $db->field('name,short_name,pinyin,type')->select();
+        }
+        return $this->_return(200, 'ok', $sings);
+    }
+
     public function delete(){
 
         return array('status'=>200, 'message'=>'ok', 'data'=>'');

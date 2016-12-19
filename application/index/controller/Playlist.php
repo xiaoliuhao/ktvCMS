@@ -1,14 +1,17 @@
 <?php
 /**
- * ------ktv------
+ * *******************************
+ * ktv
  * Author: Liu
- * Date: 2016/11/15 15:59
+ * Date: 2016/12/19 15:26
  * Version: 1.0
+ *********************************
  */
 namespace app\index\controller;
 
-use app\index\Model\PlaylistModel;
-use think\Db;
+use app\index\model\PlaylistModel;
+use app\index\model\SearchModel;
+use app\index\model\SingerModel;
 
 class Playlist extends Base{
     public function _initialize(){
@@ -19,68 +22,61 @@ class Playlist extends Base{
         return array('status'=>2000, 'message'=>'PlaylistController', 'data'=>'');
     }
 
-    /**
-     * 点歌
-     * @param string $uid       用户账号
-     * @param string $roomid    房间号
-     * @param string $songid    歌曲号
-     * @return array|\Exception
-     */
-    public function add($uid = '1', $roomid = '1',$songid = '1'){
+    public function show(){
+        $list = new PlaylistModel;
+        return $list->field('title,artist,album,cover,lyric,mp3,ogg')->select();
+    }
+
+    public function add($id){
+        //获取歌曲的详情
+        $tool = new SearchModel;
         $playlist = new PlaylistModel;
-        $is_set = $playlist->where(array('r_id'=>$roomid, 's_id'=>$songid, 'u_id'=>$uid))->find();
-        if ($is_set){
-//            return array('status'=>5000, 'message'=>'已存在');
-            return $this->_return(302,'已存在');
+        $url = "http://music.163.com/api/song/detail/?id=" . $id . "&ids=%5B" . $id . "%5D";
+        $json = $tool->curl_get($url);
+        $data = json_decode($json);
+        $song = $data->songs[0];
+        $music = array(
+//            'id'    => $song->id,
+            'title'  => $song->name,
+            'artist' => $song->artists[0]->name,
+            'album'  => $song->album->name,
+            'cover'  => $song->album->picUrl,
+            'lyric'  => '',
+            'mp3'    => $song->mp3Url
+        );
+        $playlist->title = $music['title'];
+        $playlist->artist = $music['artist'];
+        $playlist->album  = $music['album'];
+        $playlist->cover  = $music['cover'];
+        $playlist->lyric  = $music['lyric'];
+        $playlist->mp3    = $music['mp3'];
+        if($playlist->save()) {
+            //添加到点歌记录
+
+            return $this->_return(200, 'ok', $music);
         }
-        //开启事务
-        Db::startTrans();
-        try{
-            $time = date('Y-m-d H:i:s');
-            //插入点歌
-            Db::table('ktv_room_playlist')->insert(['r_id' => $roomid, 's_id' => $songid, 'u_id' => $uid, 'time'=>$time, 'rank'=>'0']);
-            //添加历史记录
-            Db::table('ktv_user_history')->insert(['s_id'=>$songid, 'u_id'=>$uid, 'create_time' => $time]);
-            //提交事务
-            Db::commit();
-        } catch (\Exception $e){
-            //回滚事务
-            Db::rollback();
-            //返回错误信息
-            return $this->_return(401,'wrong', array('error'=>$e));
-        }
-        return $this->_return(200,'ok');
     }
 
     /**
-     * 查看播放列表
-     * @param string $roomid    房间id
-     * @return array
+     * 获取歌词
+     * @param $id
+     * @return mixed
      */
-    public function show($roomid = '1'){
-        $list = new PlaylistModel();
-        $data = $list->where('r_id',$roomid)->order('rank', 'desc')->select();
-        return $this->_return(200,'ok',$data);
+    public function get_lyric($id){
+        $url = "http://music.163.com/api/song/lyric?os=pc&id=" . $id . "&lv=-1&kv=-1&tv=-1";
+        $data = $this->curl_get($url);
+        $result = $data->lrc->lyric;
+        return $result;
     }
 
-    public function delete($uid = '', $roomid = '',$songid = ''){
-        //判断用户是否存在
-        $playlist = new PlaylistModel;
-        $is_set = $playlist->where(array('r_id'=>$roomid, 's_id'=>$songid, 'u_id'=>$uid))->find();
-        if(!$is_set) {
-            return $this->_return(403, '暂无记录');
-        }
-        $is_set->delete();
-        return $this->_return(200, 'ok');
-//        $db->delete($songid);
-    }
-    //置顶歌曲
-    public function up(){
-        //可以用队列 取出要置顶的歌曲 放到队首即可保留原来的置顶过的顺序
-        return array('status'=>200, 'message'=>'ok', 'data'=>'');
-    }
-    
-    public function test_show(){
-
+    /**
+     * @param $url
+     * @return mixed
+     */
+    private function curl_get($url){
+        $model = new SearchModel;
+        $json = $model->curl_get($url);
+        $data = json_decode($json);
+        return $data;
     }
 }
