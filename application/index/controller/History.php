@@ -18,12 +18,12 @@ class History extends Base{
 
     public function get(){
         $history = new HistoryModel;
-        return $history->field('title,artist,album,cover,lyric,mp3,ogg,time')->select();
+        return $history->field('id,title,artist,album,cover,lyric,mp3,ogg,time')->order('time','desc')->limit(50)->select();
     }
 
     public function tuijian(){
         $history = new HistoryModel;
-        $data = $history->field('title,artist,album,cover,lyric,mp3,ogg,count(title) as history')->order('history','desc')->group('title')->select();
+        $data = $history->field('id,title,artist,album,cover,lyric,mp3,ogg,count(title) as history')->order('history','desc')->group('title')->limit(10)->select();
         return $data;
     }
 }

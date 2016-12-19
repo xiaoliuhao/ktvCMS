@@ -12,4 +12,8 @@ use think\Model;
 
 class PlaylistModel extends Model{
     protected $table = 'ktv_playlist';
+
+    public function update_status(){
+
+    }
 }
