@@ -26,7 +26,7 @@ class Playlist extends Base{
     public function show(){
         $list = new PlaylistModel;
         $status = new StatusModel;
-        $data['list'] = $list->field('title,artist,album,cover,lyric,mp3,ogg')->select();
+        $data['list'] = $list->field('id as pid,title,artist,album,cover,lyric,mp3,ogg')->select();
         $sta            = $status->get(1);
         $data['status'] = $sta['status'];
         $sta->status = 0;
@@ -52,6 +52,14 @@ class Playlist extends Base{
         }
     }
 
+    public function delete($pid){
+        $playlist = new PlaylistModel;
+        $data = $playlist->get($pid);
+        $data->delete();
+
+        return $this->_return(200,'ok');
+    }
+
     public function add_list($list){
         $json = $list;
         $data = json_decode($json);
@@ -74,6 +82,7 @@ class Playlist extends Base{
         return $result;
     }
 
+
     /**
      * @param $url
      * @return mixed
@@ -95,7 +104,7 @@ class Playlist extends Base{
         $data = json_decode($json);
         $song = $data->songs[0];
         $music = array(
-//            'id'    => $song->id,
+            'id'    => $song->id,
             'title'  => $song->name,
             'artist' => $song->artists[0]->name,
             'album'  => $song->album->name,
@@ -103,7 +112,8 @@ class Playlist extends Base{
             'lyric'  => '',
             'mp3'    => $song->mp3Url
         );
-        $playlist->title = $music['title'];
+        $playlist->s_id   = $music['id'];
+        $playlist->title  = $music['title'];
         $playlist->artist = $music['artist'];
         $playlist->album  = $music['album'];
         $playlist->cover  = $music['cover'];
