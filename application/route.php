@@ -21,6 +21,7 @@ return [
         'room'     => 'index/Room',
         'search'   => 'index/Search',
         'member'   => 'index/Member',
+        'singer'   => 'index/Singer',
     ],
 //    'playlist/[:name]$'=>'index/playlist'
 //    'say/[:name]' => 'index/say',

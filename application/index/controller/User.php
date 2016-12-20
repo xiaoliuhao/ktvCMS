@@ -54,8 +54,23 @@ class User extends Base {
      * @return array
      */
     public function register($uid = '', $username = '', $passwd = ''){
-
-        $this->_return(200,'ok');
+        $user = new UserModel();
+        if(!$uid || !$username || !$passwd){
+            return $this->_return(400,'参数错误');
+        }
+        //判断该账号是否存在
+        $data = $user->where(array('user_id'=>$uid))->find();
+        if($data){
+            return $this->_return(403,'该用户名已经被注册');
+        }
+        $user->user_id      = $uid;
+        $user->user_name    = $username;
+        $user->passwd       = $paswd;
+        if($user->save()){
+            $this->_return(200,'ok');
+        }else {
+            $this->_return(404, '数据库插入错误');
+        }
     }
 
 
