@@ -140,3 +140,14 @@ function to_en($str){
 
     return $data;
 }
+
+function is_pinyin($str){
+    $a=preg_match('/['.chr(0xa1).'-'.chr(0xff).']/', $str);
+    $b=preg_match('/[0-9]/', $str);
+    $c=preg_match('/[a-zA-Z]/', $str);
+    if(!$a && !$b && $c){
+        return 1;
+    }else{
+        return 0;
+    }
+}

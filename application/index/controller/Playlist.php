@@ -15,6 +15,19 @@ use app\index\model\HistoryModel;
 use app\index\model\StatusModel;
 
 class Playlist extends Base{
+
+    public function show(){
+        $list = new PlaylistModel;
+        $status = new StatusModel;
+        $data['list'] = $list->field('id as pid,title,artist,album,cover,lyric,mp3,ogg')->select();
+        $sta           = $status->get(1);
+        $data['status'] = $sta['status'];
+        $sta->status = 0;
+        $sta->save();
+
+        return $data;
+    }
+
     public function _initialize(){
 
     }
@@ -23,17 +36,6 @@ class Playlist extends Base{
         return array('status'=>2000, 'message'=>'PlaylistController', 'data'=>'');
     }
 
-    public function show(){
-        $list = new PlaylistModel;
-        $status = new StatusModel;
-        $data['list'] = $list->field('id as pid,title,artist,album,cover,lyric,mp3,ogg')->select();
-        $sta            = $status->get(1);
-        $data['status'] = $sta['status'];
-        $sta->status = 0;
-        $sta->save();
-
-        return $data;
-    }
     //添加歌曲之后要添加一个标记, 获取列表的时候返回新的列表
     public function add($id){
         if(is_array($id)){
@@ -109,7 +111,7 @@ class Playlist extends Base{
             'artist' => $song->artists[0]->name,
             'album'  => $song->album->name,
             'cover'  => $song->album->picUrl,
-            'lyric'  => '',
+            'lyric'  => $tool->get_lyric($song->id),
             'mp3'    => $song->mp3Url
         );
         $playlist->s_id   = $music['id'];

@@ -13,7 +13,7 @@ namespace app\index\controller;
  */
 class Base  {
     /**
-     * return 自定义返回模板
+     * return 自定义返回json的模板
      * @param $code
      * @param $message
      * @param $data
