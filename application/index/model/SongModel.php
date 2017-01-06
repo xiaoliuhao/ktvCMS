@@ -11,6 +11,5 @@ use think\Model;
 
 class SongModel extends Model{
     //设置table
-    protected $table = 'ktv_song';
-
+    protected $table = 'ktv_songs';
 }

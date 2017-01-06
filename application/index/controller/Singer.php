@@ -36,7 +36,7 @@ class Singer extends Base{
     public function getlist($type = '') {
         $db = new SingerModel;
         if($type){
-            $sings = $db->field('name,short_name,pinyin,type')->where(array('type'=>$type))->find();
+            $sings = $db->field('name,short_name,pinyin,type')->where(array('type'=>$type))->select();
         }else{
             $sings = $db->field('name,short_name,pinyin,type')->select();
         }

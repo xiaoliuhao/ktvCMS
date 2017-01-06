@@ -47,4 +47,32 @@ class SearchModel extends Model{
         curl_close($ch);
         return $output;
     }
+
+    public function sea($key = '', $page = 1, $limit = 10){
+        $model = new SearchModel;
+        $json = $model->search($key, $limit, $page);
+        $data = json_decode($json)->result->songs;
+        $songs = array();
+        foreach ($data as $song){
+            $url = "http://music.163.com/api/song/detail/?id=" . $song->id . "&ids=%5B" . $song->id . "%5D";
+            $json = $model->curl_get($url);
+            $song_detail = json_decode($json)->songs[0];
+
+            $songs[] = array(
+                'id'    => $song->id,
+                'name'  => $song->name,
+                'playtime'  => date('i:s', substr($song_detail->duration, 0, 3)),
+                'artists'=> array(
+                    'id'=> $song->artists[0]->id,
+                    'name'=>$song->artists[0]->name,
+                    'pic'=>$song->artists[0]->img1v1Url
+                ),
+                'album' => array(
+                    'id'=>$song->album->id,
+                    'name'=>$song->album->name,
+                )
+            );
+        }
+        return $songs;
+    }
 }
