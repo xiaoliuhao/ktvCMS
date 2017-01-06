@@ -35,7 +35,6 @@ class User extends Base {
     public function login($uid = '', $passwd = ''){
         //判断参数是否为空, 若参数不全则返回
         if(!$uid || !$passwd){
-//            return array('status'=>4000,'message'=>'参数错误','data'=>'');
             return $this->_return(400,'参数错误');
         }
         //调用model
@@ -45,6 +44,7 @@ class User extends Base {
         //返回json字符串, status状态码  message 信息  data 数据
         return $this->_return(200,'ok',$data);
     }
+
 
     /**
      * 用户注册
