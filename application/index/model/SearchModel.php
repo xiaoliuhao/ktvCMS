@@ -48,6 +48,17 @@ class SearchModel extends Model{
         return $output;
     }
 
+    /**
+     * 获取歌词
+     * @param $id
+     * @return mixed
+     */
+    public function get_lyric($id){
+        $url = "http://ktvcms.xiaohaozi.com.cn/ktv/search/get_lyric?id={$id}";
+        $data = json_decode($this->curl_get($url), true);
+        return $data;
+    }
+
     public function sea($key = '', $page = 1, $limit = 10){
         $model = new SearchModel;
         $json = $model->search($key, $limit, $page);
@@ -74,5 +85,10 @@ class SearchModel extends Model{
             );
         }
         return $songs;
+    }
+    public function get_from_list($key){
+        $sql = "select * from ktv_songs where short_title like '%{$key}%' or pinyin like '%{$key}%' limit 10";
+        $data = $this->query($sql);
+        return $data;
     }
 }

@@ -9,6 +9,7 @@
  */
 namespace app\index\controller;
 use app\index\model\SearchModel;
+use app\index\model\StatusModel;
 
 class Search extends Base{
     public function _initialize(){}
@@ -23,31 +24,24 @@ class Search extends Base{
      * @return array
      */
     public function get($key = '', $page = 1, $limit = 10){
+        $is_pinyin = is_pinyin($key);
+        if($is_pinyin){
+            $result = $this->get_from_mysql($key);
+        }else{
+            $result = $this->mysearch($key, $page, $limit);
+        }
+        return $this->_return(200,'ok',$result);
+    }
+
+    protected function mysearch($key, $page, $limit){
         $model = new SearchModel;
         $json = $model->search($key, $limit, $page);
         $data = json_decode($json)->result->songs;
         $songs = array();
         foreach ($data as $song){
-            $url = "http://music.163.com/api/song/detail/?id=" . $song->id . "&ids=%5B" . $song->id . "%5D";
-            $json = $model->curl_get($url);
-            $song_detail = json_decode($json)->songs[0];
-
-            $songs[] = array(
-                'id'    => $song->id,
-                'name'  => $song->name,
-                'playtime'  => date('i:s', substr($song_detail->duration, 0, 3)),
-                'artists'=> array(
-                    'id'=> $song->artists[0]->id,
-                    'name'=>$song->artists[0]->name,
-                    'pic'=>$song->artists[0]->img1v1Url
-                ),
-                'album' => array(
-                    'id'=>$song->album->id,
-                    'name'=>$song->album->name,
-                )
-            );
+            $songs[] = $this->search_detail($song->id);
         }
-        return $this->_return(200,'ok',$songs);
+        return $songs;
     }
 
     /**
@@ -139,5 +133,38 @@ class Search extends Base{
         $json = $model->curl_get($url);
         $data = json_decode($json);
         return $data;
+    }
+    
+    public function get_from_mysql($key){
+        $model = new SearchModel;
+        $data = $model->get_from_list($key);
+        $songs = array();
+        foreach ($data as $key => $value) {
+            $songs[] = $this->search_detail($value['id']);
+        }
+        return $songs;
+    }
+
+    protected function search_detail($id){
+        $model = new SearchModel;
+        $url = "http://music.163.com/api/song/detail/?id=" . $id . "&ids=%5B" . $id . "%5D";
+        $json = $model->curl_get($url);
+        $song_detail = json_decode($json)->songs[0];
+
+        $songs = array(
+            'id'    => $song_detail->id,
+            'name'  => $song_detail->name,
+            'playtime'  => date('i:s', substr($song_detail->duration, 0, 3)),
+            'artists'=> array(
+                'id'=> $song_detail->artists[0]->id,
+                'name'=>$song_detail->artists[0]->name,
+                'pic'=>$song_detail->artists[0]->img1v1Url
+            ),
+            'album' => array(
+                'id'=>$song_detail->album->id,
+                'name'=>$song_detail->album->name,
+            )
+        );
+        return $songs;
     }
 }
